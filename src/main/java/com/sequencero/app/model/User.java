@@ -1,19 +1,13 @@
 package com.sequencero.app.model;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+
+@Data
 public class User {
-    private final long id;
-    private final String name;
-
-    public User(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
+    @Id
+    private final String id;
+    private final String email;
+    private final String password;
+//    private final String name;
 }
