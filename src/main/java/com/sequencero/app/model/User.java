@@ -1,6 +1,6 @@
 package com.sequencero.app.model;
 
-import com.sequencero.app.dto.CreateUserDto;
+import com.sequencero.app.dto.UserCredentialsDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +16,7 @@ public class User {
     private String password;
     private String name;
 
-    public User(CreateUserDto newUser) {
-        this.id = newUser.getId();
+    public User(UserCredentialsDto newUser) {
         this.email = newUser.getEmail();
         this.password = newUser.getPassword();
     }

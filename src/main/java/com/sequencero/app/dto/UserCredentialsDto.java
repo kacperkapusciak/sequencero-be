@@ -1,12 +1,9 @@
 package com.sequencero.app.dto;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Data
-public class CreateUserDto {
-    @Id
-    private String id;
+public class UserCredentialsDto {
     private String email;
     private String password;
 }

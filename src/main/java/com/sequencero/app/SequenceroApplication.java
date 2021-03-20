@@ -9,5 +9,4 @@ public class SequenceroApplication {
     public static void main(String[] args) {
         SpringApplication.run(SequenceroApplication.class, args);
     }
-
 }
