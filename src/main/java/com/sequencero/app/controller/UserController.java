@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,15 +36,19 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@RequestBody UserCredentialsDto userDto) {
+    public String registerUser(@RequestBody UserCredentialsDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userRepository.insert(new User(userDto));
+        User user = userRepository.insert(new User(userDto));
+        return user.getId();
     }
 
     @PostMapping("/authenticate")
-    public boolean authenticateUser(@RequestBody UserCredentialsDto userDto) {
+    public ResponseEntity<String> authenticateUser(@RequestBody UserCredentialsDto userDto) {
         User user = userRepository.findByEmail(userDto.getEmail());
-        return passwordEncoder.matches(userDto.getPassword(), user.getPassword());
+        if (passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
+            return ResponseEntity.ok(user.getId());
+        else
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
     @DeleteMapping("/{id}")
@@ -52,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserName(@PathVariable("id") String id, @RequestBody AddUserNameDto userNameDto) {
+    public ResponseEntity<User> updateUserName(@PathVariable("id") String id, @Valid @RequestBody AddUserNameDto userNameDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id));
 
