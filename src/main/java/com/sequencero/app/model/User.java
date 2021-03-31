@@ -4,9 +4,12 @@ import com.sequencero.app.dto.UserCredentialsDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +25,9 @@ public class User {
     private String password;
 
     private String name;
+
+    @CreatedDate
+    private Instant createdAt;
 
     public User(UserCredentialsDto newUser) {
         this.email = newUser.getEmail();
