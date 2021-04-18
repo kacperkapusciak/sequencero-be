@@ -1,6 +1,7 @@
 package com.sequencero.app.controller;
 
 import com.sequencero.app.dto.AddUserNameDto;
+import com.sequencero.app.dto.GetUserDto;
 import com.sequencero.app.dto.UserCredentialsDto;
 import com.sequencero.app.model.User;
 import com.sequencero.app.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("users")
@@ -25,13 +27,15 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<GetUserDto> getUsers() {
+        List<User> users = userRepository.findAll();
+        // convert List<User> to List<GetUserDto>
+        return users.stream().map(GetUserDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable("id") String id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id));
+    public GetUserDto getUser(@PathVariable("id") String id) {
+        return new GetUserDto(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id)));
     }
 
     @PostMapping("/register")
