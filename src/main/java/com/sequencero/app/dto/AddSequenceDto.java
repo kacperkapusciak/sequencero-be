@@ -12,7 +12,7 @@ public class AddSequenceDto {
     private String name;
 
     @NotEmpty
-    private String[] body;
+    private String body;
 
     @NotEmpty
     private boolean seqIsPublic;

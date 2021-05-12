@@ -30,8 +30,9 @@ public class Sequence {
     private String createdBy;
 
     public Sequence(AddSequenceDto newSequence) {
+        String content = newSequence.getBody();
+        this.body = content.split("\\r?\\n");
         this.name = newSequence.getName();
-        this.body = newSequence.getBody();
         this.seqIsPublic = newSequence.isSeqIsPublic();
         this.createdBy = newSequence.getCreatedBy();
     }
