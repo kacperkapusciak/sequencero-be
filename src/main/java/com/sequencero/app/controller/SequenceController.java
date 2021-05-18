@@ -20,8 +20,12 @@ public class SequenceController {
     }
 
     @GetMapping
-    public List<Sequence> getSequences() {
-        return sequenceRepository.findBySeqIsPublicIsTrue();
+    public List<Sequence> getSequences(@RequestParam(defaultValue = "") String q) {
+        if (q.isEmpty()) {
+            return sequenceRepository.findBySeqIsPublicIsTrue();
+        }
+
+        return sequenceRepository.findBySeqIsPublicIsTrueAndNameIgnoreCaseLike(q);
     }
 
     @GetMapping("/{id}")

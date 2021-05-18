@@ -9,4 +9,6 @@ public interface SequenceRepository extends MongoRepository<Sequence, String> {
     List<Sequence> findBySeqIsPublicIsTrue();
 
     List<Sequence> findByCreatedByIsLike(String userId);
+
+    List<Sequence> findBySeqIsPublicIsTrueAndNameIgnoreCaseLike(String name);
 }
