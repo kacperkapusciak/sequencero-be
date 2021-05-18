@@ -21,12 +21,17 @@ public class SequenceController {
 
     @GetMapping
     public List<Sequence> getSequences() {
-        return sequenceRepository.findAll();
+        return sequenceRepository.findBySeqIsPublicIsTrue();
     }
 
     @GetMapping("/{id}")
     public Sequence getSequence(@PathVariable("id") String id) {
         return sequenceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sequence not found :: " + id));
+    }
+
+    @GetMapping("/user/{id}")
+    public List<Sequence> getUserSequences(@PathVariable("id") String userId) {
+        return sequenceRepository.findByCreatedByIsLike(userId);
     }
 
     @PostMapping
