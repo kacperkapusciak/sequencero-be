@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +30,8 @@ public class User {
 
     @CreatedDate
     private Instant createdAt;
+
+    private List<Sequence> favourite = new ArrayList<>();
 
     public User(UserCredentialsDto newUser) {
         this.email = newUser.getEmail();
