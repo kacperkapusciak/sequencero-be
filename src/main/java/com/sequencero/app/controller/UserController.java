@@ -3,9 +3,7 @@ package com.sequencero.app.controller;
 import com.sequencero.app.dto.AddUserNameDto;
 import com.sequencero.app.dto.GetUserDto;
 import com.sequencero.app.dto.UserCredentialsDto;
-import com.sequencero.app.model.Sequence;
 import com.sequencero.app.model.User;
-import com.sequencero.app.repository.SequenceRepository;
 import com.sequencero.app.repository.UserRepository;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -21,13 +19,11 @@ import java.util.stream.Collectors;
 @RequestMapping("users")
 public class UserController {
     private final UserRepository userRepository;
-    private final SequenceRepository sequenceRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository, SequenceRepository sequenceRepository) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.sequenceRepository = sequenceRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -71,23 +67,6 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id));
 
         user.setName(userNameDto.getName());
-        return ResponseEntity.ok(userRepository.save(user));
-    }
-
-    @PostMapping("/{id}/favourite/{sequenceId}")
-    public ResponseEntity<User> userFavouriteSequences(@PathVariable("id") String userId, @PathVariable("sequenceId") String sequenceId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + userId));
-        Sequence sequence = sequenceRepository.findById(sequenceId).orElseThrow(() -> new ResourceNotFoundException("Sequence not found :: " + sequenceId));
-
-        List<Sequence> favourites = user.getFavourite();
-
-        if (favourites.contains(sequence)) {
-            favourites.remove(sequence);
-        } else {
-            favourites.add(sequence);
-        }
-
-        user.setFavourite(favourites);
         return ResponseEntity.ok(userRepository.save(user));
     }
 }
