@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+/**
+ * Data transfer object used for adding new sequence
+ */
 @Data
 public class AddSequenceDto {
     @NotEmpty

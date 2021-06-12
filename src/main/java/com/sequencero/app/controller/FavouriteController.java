@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller used for adding sequences to favourites
+ */
 @RestController
 @RequestMapping("favourite")
 public class FavouriteController {
@@ -21,12 +24,25 @@ public class FavouriteController {
         this.sequenceRepository = sequenceRepository;
     }
 
+    /**
+     * Gets sequences added by the user to favourites
+     *
+     * @param id User's id
+     * @return User's favourite sequences
+     */
     @GetMapping("/{userId}")
     public List<Sequence> getFavouriteSequences(@PathVariable("userId") String id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id));
         return user.getFavourite();
     }
 
+    /**
+     * Method used for adding and removing sequences from favourites
+     *
+     * @param userId     - User's id
+     * @param sequenceId - id of the sequence
+     * @return User's favourite sequences
+     */
     @PostMapping("/{userId}/{sequenceId}")
     public ResponseEntity<List<Sequence>> favouriteSequence(@PathVariable("userId") String userId, @PathVariable("sequenceId") String sequenceId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + userId));

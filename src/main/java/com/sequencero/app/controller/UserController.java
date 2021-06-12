@@ -15,6 +15,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller used for managing users
+ */
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -27,6 +30,11 @@ public class UserController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    /**
+     * Gets users
+     *
+     * @return List of users
+     */
     @GetMapping
     public List<GetUserDto> getUsers() {
         List<User> users = userRepository.findAll();
@@ -34,11 +42,23 @@ public class UserController {
         return users.stream().map(GetUserDto::new).collect(Collectors.toList());
     }
 
+    /**
+     * Gets user by id
+     *
+     * @param id User's id
+     * @return User
+     */
     @GetMapping("/{id}")
     public GetUserDto getUser(@PathVariable("id") String id) {
         return new GetUserDto(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found :: " + id)));
     }
 
+    /**
+     * Registers a new user
+     *
+     * @param userDto User credentials (email & password) passed by the client
+     * @return Authorization token
+     */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public String registerUser(@RequestBody UserCredentialsDto userDto) {
@@ -47,6 +67,12 @@ public class UserController {
         return user.getId();
     }
 
+    /**
+     * Authenticates the user when correct credentials provided
+     *
+     * @param userDto User credentials (email & password) passed by the client
+     * @return Authorization token
+     */
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticateUser(@RequestBody UserCredentialsDto userDto) {
         User user = userRepository.findByEmail(userDto.getEmail());
@@ -56,11 +82,23 @@ public class UserController {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Removes user by given id
+     *
+     * @param id User's id
+     */
     @DeleteMapping("/{id}")
     public void removeUser(@PathVariable("id") String id) {
         userRepository.deleteById(id);
     }
 
+    /**
+     * Updates user's name
+     *
+     * @param id          User's id
+     * @param userNameDto Name of the user
+     * @return User
+     */
     @PutMapping("/{id}")
     public ResponseEntity<GetUserDto> updateUserName(@PathVariable("id") String id, @Valid @RequestBody AddUserNameDto userNameDto) {
         User user = userRepository.findById(id)

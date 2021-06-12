@@ -18,15 +18,30 @@ public class Sequence {
     @Id
     private String id;
 
+    /**
+     * Sequence name
+     */
     private String name;
 
+    /**
+     * Sequence body
+     */
     private String[] body;
 
+    /**
+     * Used for marking the sequence as public or private
+     */
     private boolean seqIsPublic;
 
+    /**
+     * Date when sequence was created at
+     */
     @CreatedDate
     private Instant createdAt;
 
+    /**
+     * Id of the user who created this sequence
+     */
     private String createdBy;
 
     public Sequence(AddSequenceDto newSequence) {

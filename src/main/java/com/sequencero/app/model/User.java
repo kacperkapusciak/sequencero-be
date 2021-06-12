@@ -21,16 +21,31 @@ public class User {
     @Id
     private String id;
 
+    /**
+     * User's email
+     */
     @Indexed(unique = true)
     private String email;
 
+    /**
+     * User's password
+     */
     private String password;
 
+    /**
+     * User's name
+     */
     private String name;
 
+    /**
+     * Date when user was created at
+     */
     @CreatedDate
     private Instant createdAt;
 
+    /**
+     * List of sequences added by user to favourites
+     */
     private List<Sequence> favourite = new ArrayList<>();
 
     public User(UserCredentialsDto newUser) {

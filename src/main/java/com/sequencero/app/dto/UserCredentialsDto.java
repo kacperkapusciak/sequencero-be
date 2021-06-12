@@ -6,6 +6,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Data transfer object used for registering new users and authentication.
+ */
 @Data
 public class UserCredentialsDto {
     @NotNull

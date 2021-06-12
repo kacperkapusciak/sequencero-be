@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * Data transfer object used for getting user from the database. Omits password
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
