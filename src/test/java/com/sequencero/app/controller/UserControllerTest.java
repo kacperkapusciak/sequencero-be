@@ -6,7 +6,6 @@ import com.sequencero.app.dto.UserCredentialsDto;
 import com.sequencero.app.model.User;
 import com.sequencero.app.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureDataMongo
@@ -44,12 +45,12 @@ class UserControllerTest {
     @Test
     void getUsers_shouldReturnAllUsers() {
         List<GetUserDto> users = userController.getUsers();
-        Assertions.assertEquals(userRepository.findAll().size(), users.size());
+        assertEquals(userRepository.findAll().size(), users.size());
     }
 
     @Test
     void getUser_shouldThrowNotFoundException_whenInvalidIdIsProvided() {
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             userController.getUser("a");
         });
     }
@@ -62,7 +63,7 @@ class UserControllerTest {
 
         GetUserDto user = userController.getUser(id);
 
-        Assertions.assertEquals(exampleUser, user);
+        assertEquals(exampleUser, user);
     }
 
     @Test
@@ -75,7 +76,7 @@ class UserControllerTest {
         userController.registerUser(userToRegister);
 
         int afterRegister = userRepository.findAll().size();
-        Assertions.assertTrue(afterRegister > beforeRegister);
+        assertTrue(afterRegister > beforeRegister);
     }
 
     @Test
@@ -86,8 +87,8 @@ class UserControllerTest {
         userController.removeUser(id);
 
         int afterRemove = userRepository.findAll().size();
-        Assertions.assertTrue(beforeRemove > afterRemove);
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+        assertTrue(beforeRemove > afterRemove);
+        assertThrows(ResourceNotFoundException.class, () -> {
             userController.getUser(id);
         });
     }
@@ -101,7 +102,7 @@ class UserControllerTest {
 
         ResponseEntity<GetUserDto> user = userController.updateUserName(id, userNameDto);
 
-        Assertions.assertEquals(name, user.getBody().getName());
+        assertEquals(name, user.getBody().getName());
     }
 
     String getExampleUserId() {
