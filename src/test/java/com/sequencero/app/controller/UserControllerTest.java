@@ -29,7 +29,7 @@ class UserControllerTest {
     private UserRepository userRepository;
 
     @BeforeEach
-    void addExampleUsers() {
+    void setUp() {
         User user1 = new User();
         user1.setEmail("a@a.com");
         User user2 = new User();
@@ -38,7 +38,7 @@ class UserControllerTest {
     }
 
     @AfterEach
-    void removeUsers() {
+    void tearDown() {
         userRepository.deleteAll();
     }
 

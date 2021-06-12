@@ -27,7 +27,7 @@ class SequenceControllerTest {
     private SequenceRepository sequenceRepository;
 
     @BeforeEach
-    void addExampleSequences() {
+    void setUp() {
         Sequence seq1 = new Sequence();
         seq1.setName("aaa");
         seq1.setSeqIsPublic(true);
@@ -42,7 +42,7 @@ class SequenceControllerTest {
     }
 
     @AfterEach
-    void removeSequences() {
+    void tearDown() {
         sequenceRepository.deleteAll();
     }
 
